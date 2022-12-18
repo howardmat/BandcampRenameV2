@@ -14,6 +14,8 @@ namespace BandcampRenameV2.FileParser
             {
                 var index = match.Index;
                 newfilename = filename.Substring(index + 3);
+
+                newfilename = newfilename.Trim(Path.GetInvalidFileNameChars());
             }
 
             return newfilename;

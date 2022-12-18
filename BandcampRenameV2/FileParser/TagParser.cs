@@ -17,8 +17,11 @@ namespace BandcampRenameV2.FileParser
             else if (file.Tag.Track < 10)
                 trackStr = "0" + trackStr;
 
+            // Remove invalid characters for filename
+            var titleForFilename = file.Tag.Title.Trim(Path.GetInvalidFileNameChars());
+
             // Set filename
-            return $"{trackStr} {file.Tag.Title}.mp3";
+            return $"{trackStr} {titleForFilename}.mp3";
         }
     }
 }
