@@ -363,4 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # Custom
-Properties/launchSettings.json
+/BandcampRenameV2/Properties/launchSettings.json
