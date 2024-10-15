@@ -1,86 +1,85 @@
 ﻿using BandcampRenameV2.FileParser;
 
-namespace BandcampRenameV2
+namespace BandcampRenameV2;
+
+internal class FolderParser
 {
-    internal class FolderParser
+    private readonly string _currentPath = string.Empty;
+    private readonly IFileParser _fileParser;
+
+    public FolderParser(IFileParser parser)
     {
-        private readonly string _currentPath = string.Empty;
-        private readonly IFileParser _fileParser;
+        _currentPath = Directory.GetCurrentDirectory();
+        _fileParser = parser;
+    }
 
-        public FolderParser()
+    public Folder[] Parse()
+    {
+        var folderCollection = new List<Folder>();
+
+        // Including the current folder, get all folders within the current path
+        var folders = new List<string> { _currentPath };
+        folders.AddRange(GetAllFolders(_currentPath));
+
+        // Get all of the files from each folder
+        foreach (var folder in folders)
         {
-            _currentPath = Directory.GetCurrentDirectory();
-            _fileParser = new TagParser();
-        }
+            var files = GetFilesInFolder(folder);
 
-        public Folder[] Parse()
-        {
-            var folderCollection = new List<Folder>();
-
-            // Including the current folder, get all folders within the current path
-            var folders = new List<string> { _currentPath };
-            folders.AddRange(GetAllFolders(_currentPath));
-
-            // Get all of the files from each folder
-            foreach (var folder in folders)
+            // Build the object to be returned
+            var folderObj = new Folder
             {
-                var files = GetFilesInFolder(folder);
+                FullPath = folder,
+                Name = Path.GetFileName(folder)
+            };
 
-                // Build the object to be returned
-                var folderObj = new Folder
+            foreach (var file in files)
+            {
+                var currentname = Path.GetFileName(file);
+                var newname = _fileParser.GetNewName(file);
+
+                folderObj.Files.Add(new FolderFile
                 {
-                    FullPath = folder,
-                    Name = Path.GetFileName(folder)
-                };
-
-                foreach (var file in files)
-                {
-                    var currentname = Path.GetFileName(file);
-                    var newname = _fileParser.GetNewName(file);
-
-                    folderObj.Files.Add(new FolderFile
-                    {
-                        FullPath = file,
-                        CurrentName = currentname,
-                        NewName = newname,
-                        NewPath = Path.Combine(folder, newname)
-                    });
-                }
-
-                folderCollection.Add(folderObj);
+                    FullPath = file,
+                    CurrentName = currentname,
+                    NewName = newname,
+                    NewPath = Path.Combine(folder, newname)
+                });
             }
 
-            return folderCollection.ToArray();
+            folderCollection.Add(folderObj);
         }
 
-        private string[] GetAllFolders(string path)
+        return folderCollection.ToArray();
+    }
+
+    private string[] GetAllFolders(string path)
+    {
+        var folders = new List<string>();
+
+        // Add any other folders in this directory as well
+        foreach (var dir in Directory.GetDirectories(path))
         {
-            var folders = new List<string>();
-
-            // Add any other folders in this directory as well
-            foreach (var dir in Directory.GetDirectories(path))
-            {
-                folders.Add(dir);
-            }
-
-            return folders.ToArray();
+            folders.Add(dir);
         }
 
-        private string[] GetFilesInFolder(string path)
+        return folders.ToArray();
+    }
+
+    private string[] GetFilesInFolder(string path)
+    {
+        var files = new List<string>();
+
+        // Iterate over all files in directory
+        foreach (var file in Directory.GetFiles(path))
         {
-            var files = new List<string>();
-
-            // Iterate over all files in directory
-            foreach (var file in Directory.GetFiles(path))
+            // We only want .mp3 files
+            if (Path.GetExtension(file) == ".mp3")
             {
-                // We only want .mp3 files
-                if (Path.GetExtension(file) == ".mp3")
-                {
-                    files.Add(file);
-                }
+                files.Add(file);
             }
-
-            return files.ToArray();
         }
+
+        return files.ToArray();
     }
 }

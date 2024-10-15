@@ -1,7 +1,6 @@
-﻿namespace BandcampRenameV2.FileParser
+﻿namespace BandcampRenameV2.FileParser;
+
+internal interface IFileParser
 {
-    internal interface IFileParser
-    {
-        string GetNewName(string filePath);
-    }
+    string GetNewName(string filePath);
 }

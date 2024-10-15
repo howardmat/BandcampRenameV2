@@ -1,9 +1,8 @@
-﻿namespace BandcampRenameV2
+﻿namespace BandcampRenameV2;
+
+internal class Folder
 {
-    internal class Folder
-    {
-        public string? FullPath { get; set; }
-        public string? Name { get; set; }
-        public ICollection<FolderFile> Files { get; set; } = new HashSet<FolderFile>();
-    }
+    public string? FullPath { get; set; }
+    public string? Name { get; set; }
+    public ICollection<FolderFile> Files { get; set; } = new HashSet<FolderFile>();
 }

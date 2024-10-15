@@ -1,11 +1,10 @@
-﻿namespace BandcampRenameV2.Extensions
+﻿namespace BandcampRenameV2.Extensions;
+
+public static class StringExtensions
 {
-    public static class StringExtensions
+    public static string Replace(this string source, char[] charsToReplace, char charToReplaceWith)
     {
-        public static string Replace(this string source, char[] charsToReplace, char charToReplaceWith)
-        {
-            var sourceArray = source.Split(charsToReplace, StringSplitOptions.RemoveEmptyEntries);
-            return string.Join(charToReplaceWith, sourceArray);
-        }
+        var sourceArray = source.Split(charsToReplace, StringSplitOptions.RemoveEmptyEntries);
+        return string.Join(charToReplaceWith, sourceArray);
     }
 }
