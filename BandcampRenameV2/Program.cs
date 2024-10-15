@@ -2,7 +2,9 @@
 using BandcampRenameV2.FileParser;
 
 // Get all files in all folders and pull info from the MP3 tags 
-var parser = new FolderParser(new TagParser());
+var currentDirectory = Directory.GetCurrentDirectory();
+
+var parser = new FolderParser(currentDirectory, new TagParser());
 var files = parser.Parse();
 
 // Display all files to the user

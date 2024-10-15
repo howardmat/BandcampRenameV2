@@ -4,5 +4,5 @@ internal class Folder
 {
     public string? FullPath { get; set; }
     public string? Name { get; set; }
-    public ICollection<FolderFile> Files { get; set; } = new HashSet<FolderFile>();
+    public ICollection<FolderFile> Files { get; set; } = [];
 }

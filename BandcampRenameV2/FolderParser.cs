@@ -2,16 +2,10 @@
 
 namespace BandcampRenameV2;
 
-internal class FolderParser
+internal class FolderParser(string directoryPath, IFileParser parser)
 {
-    private readonly string _currentPath = string.Empty;
-    private readonly IFileParser _fileParser;
-
-    public FolderParser(IFileParser parser)
-    {
-        _currentPath = Directory.GetCurrentDirectory();
-        _fileParser = parser;
-    }
+    private readonly string _currentPath = directoryPath;
+    private readonly IFileParser _fileParser = parser;
 
     public Folder[] Parse()
     {
@@ -53,7 +47,7 @@ internal class FolderParser
         return folderCollection.ToArray();
     }
 
-    private string[] GetAllFolders(string path)
+    private static string[] GetAllFolders(string path)
     {
         var folders = new List<string>();
 
@@ -66,7 +60,7 @@ internal class FolderParser
         return folders.ToArray();
     }
 
-    private string[] GetFilesInFolder(string path)
+    private static string[] GetFilesInFolder(string path)
     {
         var files = new List<string>();
 
