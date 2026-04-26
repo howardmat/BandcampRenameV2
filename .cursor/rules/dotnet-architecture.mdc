@@ -1,0 +1,14 @@
+---
+description: Core .NET architecture and design principles
+alwaysApply: true
+---
+
+# .NET Architecture Standards
+
+- Build and maintain this project as a C#/.NET codebase.
+- Target .NET 10 and C# 14 for new code and updates unless explicitly instructed otherwise.
+- Apply SOLID principles to keep responsibilities clear and dependencies well-structured.
+- Follow DRY: extract reusable logic and avoid duplicated behavior across modules.
+- Use dependency injection and interface-driven design at architectural boundaries.
+- Keep classes and methods focused, cohesive, and small enough to be easy to reason about.
+- Use current .NET and C# best practices, favoring framework-supported patterns over custom reinvention.
