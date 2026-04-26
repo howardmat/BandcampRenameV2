@@ -1,4 +1,22 @@
-﻿using BandcampRenameV2.FileParser;
+﻿// BandcampRenameV2 — console tool to preview and rename MP3 files from embedded metadata.
+// Copyright (C) 2026  Mathew Howard
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+using BandcampRenameV2.FileParser;
+using System.Linq;
+using File = TagLib.File;
 
 namespace BandcampRenameV2;
 
@@ -26,6 +44,13 @@ internal class FolderParser(string directoryPath, IFileParser parser)
                 FullPath = folder,
                 Name = Path.GetFileName(folder)
             };
+
+            if (files.Length > 0)
+            {
+                var newFolderName = BuildNewFolderName(files[0]);
+                folderObj.NewName = newFolderName;
+                folderObj.NewPath = Path.Combine(Path.GetDirectoryName(folder) ?? _currentPath, newFolderName);
+            }
 
             foreach (var file in files)
             {
@@ -75,5 +100,23 @@ internal class FolderParser(string directoryPath, IFileParser parser)
         }
 
         return files.ToArray();
+    }
+
+    private static string BuildNewFolderName(string filePath)
+    {
+        using var file = File.Create(filePath);
+
+        var albumArtist = file.Tag.FirstAlbumArtist ?? file.Tag.FirstPerformer ?? "Unknown Artist";
+        var albumYear = file.Tag.Year > 0 ? file.Tag.Year.ToString() : "Unknown Year";
+        var albumName = file.Tag.Album ?? "Unknown Album";
+
+        return
+            $"{RemoveInvalidPathChars(albumArtist)} - {RemoveInvalidPathChars(albumYear)} - {RemoveInvalidPathChars(albumName)}";
+    }
+
+    private static string RemoveInvalidPathChars(string value)
+    {
+        var invalidChars = Path.GetInvalidFileNameChars();
+        return string.Concat(value.Where(c => !invalidChars.Contains(c)));
     }
 }

@@ -1,0 +1,12 @@
+---
+description: Keep .NET type declarations in dedicated files
+alwaysApply: true
+---
+
+# .NET File Organization
+
+- Prefer one top-level type per source file in the project.
+- Do not declare reusable records, classes, structs, interfaces, or enums inline in `Program.cs` or unrelated files.
+- Name each type file after the type it defines (for example, `RenameSummary.cs` for `RenameSummary`).
+- Keep `Program.cs` focused on application flow and orchestration logic.
+- If a type starts as local scaffolding and becomes shared or returned from methods, move it into its own file immediately.

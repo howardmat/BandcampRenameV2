@@ -1,0 +1,15 @@
+---
+description: .NET code quality, reliability, and performance practices
+alwaysApply: true
+---
+
+# .NET Quality and Performance Standards
+
+- Prefer solutions that balance performance, readability, and long-term maintainability.
+- Use async/await correctly for I/O-bound work and propagate `CancellationToken` where applicable.
+- Keep nullable reference types enabled and handle nullability explicitly.
+- Implement clear error handling: do not swallow exceptions; log useful context and rethrow or translate appropriately.
+- Use structured logging with meaningful properties instead of ad-hoc string-only logs.
+- Add or update tests (unit/integration as appropriate) for changed behavior and bug fixes.
+- Prefer built-in analyzers and consistent formatting/naming conventions to keep code quality high.
+- Optimize based on evidence (measure first), then improve hotspots without sacrificing clarity.
