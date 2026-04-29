@@ -83,23 +83,18 @@ static void PrintToConsole(Folder[] folders)
         return;
     }
 
-    var folderIndex = 1;
-
     foreach (var folder in folders)
     {
         Console.WriteLine();
-        Console.WriteLine($"[{folderIndex}] Folder");
-        Console.WriteLine($"  From: {folder.Name}");
-        Console.WriteLine($"  To:   {folder.NewName ?? folder.Name}");
+        Console.WriteLine(folder.Name);
+        Console.WriteLine($"  -> {folder.NewName ?? folder.Name}");
         Console.WriteLine("  Files:");
 
         foreach (var file in folder.Files)
         {
-            Console.WriteLine($"    - {file.CurrentName}");
+            Console.WriteLine($"    {file.CurrentName}");
             Console.WriteLine($"      -> {file.NewName}");
         }
-
-        folderIndex++;
     }
 }
 
